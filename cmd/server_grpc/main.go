@@ -22,12 +22,9 @@ func (s *GreetServer) Greet(
 	ctx context.Context,
 	req *greetv1.GreetRequest,
 ) (*greetv1.GreetResponse, error) {
-	log.Println("Request headers: ", req.Header())
-	res := &greetv1.GreetResponse{
-		Greeting: fmt.Sprintf("Hello, %s!", req.Msg.Name),
-	}
-	res.Header().Set("Greet-Version", "v1")
-	return res, nil
+	return &greetv1.GreetResponse{
+		Greeting: fmt.Sprintf("Hello, %s!", req.GetName()),
+	}, nil
 }
 
 func main() {
