@@ -15,7 +15,7 @@ import (
 
 var (
 	scanner *bufio.Scanner
-	client  greetv1.GreetingServiceClient
+	client  greetv1.GreetServiceClient
 )
 
 func main() {
@@ -39,37 +39,12 @@ func main() {
 	defer conn.Close()
 
 	// 3. gRPCクライアントを生成
-	client = greetv1.NewGreetingServiceClient(conn)
-
-	for {
-		fmt.Println("1: send Request")
-		fmt.Println("2: exit")
-		fmt.Print("please enter >")
-
-		scanner.Scan()
-		in := scanner.Text()
-
-		switch in {
-		case "1":
-			Hello()
-
-		case "2":
-			fmt.Println("bye.")
-			goto M
-		}
-	}
-M:
-}
-
-func Hello() {
-	fmt.Println("Please enter your name.")
-	scanner.Scan()
-	name := scanner.Text()
+	client = greetv1.NewGreetServiceClient(conn)
 
 	req := &greetv1.GreetRequest{
-		Name: name,
+		Name: "Jane",
 	}
-	res, err := client.Hello(context.Background(), req)
+	res, err := client.Greet(context.Background(), req)
 	if err != nil {
 		fmt.Println(err)
 	} else {
